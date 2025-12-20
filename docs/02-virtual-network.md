@@ -3,6 +3,7 @@
 ## **Intent**
 Create a virtual network (VNET) to host all the subnets required to manage, secure, and host the application server.
 
+### **SOP**
 1.	Opent azure portal
 2.	Search for “Virtual Networks” blade
 3.	Select “create” on the ribbon
