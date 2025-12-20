@@ -15,5 +15,3 @@ Using a layered security approach, create NSGs for management and application su
 
 6. Navigate back to NSG blade and see that resource is created (repeat steps 1 - 5 for additional NSGs)
   ![image](/images/03-network-security-groups/03-workload-NSG-validation.png)
-
-7. 
