@@ -1,5 +1,6 @@
 # **Creating the Virtual Network**
 
+## **Intent**
 Create a virtual network (VNET) to host all the subnets required to manage, secure, and host the application server.
 
 1.	Opent azure portal
