@@ -1,7 +1,9 @@
 # **Creating the Resource Group**
 
-Intent: Keep all resources needed in one group for easier management (or deletion after the lab)
+## **Intent**
+Keep all resources needed in one group for easier management (or deletion after the lab)
 
+### **SOP**
 1.	Log in to azure portal
 2.	Navigate to “Resource Group” blade
 3.	Select desired subscription
