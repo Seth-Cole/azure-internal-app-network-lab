@@ -16,7 +16,7 @@ Using resource groups, a virtual network with subnets, public IPs, Private DNS, 
 
 ## Documentation
 
-- [Resource group and VNet](https://github.com/Seth-Cole/azure-internal-app-network-lab/blob/main/docs/01-resource-group.md)
+- [Resource group](docs/01-resource-group.md)
 - [NSGs and virtual machines](https://github.com/Seth-Cole/azure-internal-app-network-lab/blob/main/docs/02-virtual-network.md)
 - [Private DNS configuration](docs/03-private-dns.md)
 - [Azure Firewall and UDR routing](docs/04-firewall-and-udr.md)
