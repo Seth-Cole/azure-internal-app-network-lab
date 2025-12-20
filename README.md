@@ -17,10 +17,12 @@ Using resource groups, a virtual network with subnets, public IPs, Private DNS, 
 ## Documentation
 
 - [Resource group](docs/01-resource-group.md)
-- [NSGs and virtual machines](https://github.com/Seth-Cole/azure-internal-app-network-lab/blob/main/docs/02-virtual-network.md)
-- [Private DNS configuration](docs/03-private-dns.md)
-- [Azure Firewall and UDR routing](docs/04-firewall-and-udr.md)
-- [Validation tests (curl, nslookup, tracepath)](docs/05-validation-tests.md)
+- [Virtual Network and Subnets](docs/02-virtual-network.md)
+- [Network Security Groups (NSG)](docs/03-network-security-groups.md)
+- [Virtual Machines](docs/04-management-and-application-VM.md)
+- [Private DNS (PDNS)](docs/05-private-DNS.md)
+- [Firewall and User Defined Routes](docs/06-firewall-and-udr.md)
+- [Validation and tests](docs/07-validation-and-tests.md)
 
 ## Skills Demonstrated
 
