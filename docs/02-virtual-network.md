@@ -1,4 +1,4 @@
-# H1 **Creating the Virtual Network**
+# **Creating the Virtual Network**
 
 Create a virtual network (VNET) to host all the subnets required to manage, secure, and host the application server.
 
