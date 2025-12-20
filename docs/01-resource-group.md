@@ -9,3 +9,7 @@ Intent: Keep all resources needed in one group for easier management (or deletio
 6.	Select Review + Create -> Create
 
 ![image](/images/01-resource-group/Create-Resource-Group.png)
+
+7. Refresh page to ensure that the group was created
+
+![image](/images/01-resource-group/verify-resource-group.png)
