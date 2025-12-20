@@ -1,6 +1,6 @@
 Creating the Virtual Network
 
-Create a virtual network to host all the subnets required to manage, secure, and host the application. Additionally this VNET will host the Private DNS records responsible for resolving internal Host Name/IP records for the resources inside.
+Create a virtual network (VNET) to host all the subnets required to manage, secure, and host the application server.
 
 1.	Opent azure portal
 2.	Search for “Virtual Networks” blade
