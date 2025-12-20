@@ -8,4 +8,4 @@ Intent: Keep all resources needed in one group for easier management (or deletio
 5.	Select region
 6.	Select Review + Create -> Create
 
-- (images/01-resource-group/Create-Resource-Group.png)
+![image](images/01-resource-group/Create-Resource-Group.png)
