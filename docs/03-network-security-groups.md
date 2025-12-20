@@ -1,8 +1,9 @@
-# **Creating NSGs**
+# **Netowrk Security Groups**
 
+## **Creating the NSG**
 ## **Intent**
 
-Using a layered security approach, create NSGs for management and application subnets. Using the management subnet as a jumpbox to the application subnet, allow SSH to the management box from admin public IP and allow ssh from the management box to the application server.
+Using a layered security approach, create NSGs for management and application subnets.
 
 ### **SOP**
 
@@ -15,3 +16,11 @@ Using a layered security approach, create NSGs for management and application su
 
 6. Navigate back to NSG blade and see that resource is created (repeat steps 1 - 5 for additional NSGs)
   ![image](/images/03-network-security-groups/03-workload-NSG-validation.png)
+
+
+## **Configuring the NSG**
+## **Intent**
+1. Configure the management subnet to be used as a jumpbox to the application subnet by allowing SSH to the management box from admin public IP 
+2. Allow ssh from the management box to the application server.
+
+### **SOP**
