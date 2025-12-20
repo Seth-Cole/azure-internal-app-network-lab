@@ -2,7 +2,7 @@
 Using resource groups, a virtual network with subnets, assigning public IPs, Private DNS, user-defined routes (UDRs), and Azure Firewall/NSGs to secure an internal application server in Azure.
 
 ## Architecture Overview
-![Internal app network diagram](https://github.com/Seth-Cole/azure-internal-app-network-lab/blob/main/diagrams/WebAppDiagram.jpg)
+
 
 -Resource Group: az-rg-lab
 -VNet: az-vnet-lab (10.0.0.0/16)
@@ -20,7 +20,7 @@ Using resource groups, a virtual network with subnets, public IPs, Private DNS, 
 
 ## Architecture Overview
 
-![Internal app network diagram](diagrams/internal-app-network.jpg)
+![Internal app network diagram](https://github.com/Seth-Cole/azure-internal-app-network-lab/blob/main/diagrams/WebAppDiagram.jpg)
 
 - Resource group: `az-rg-lab`
 - VNet: `az-vnet-lab` (`10.0.0.0/16`)
