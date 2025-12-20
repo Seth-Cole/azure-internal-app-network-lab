@@ -1,4 +1,5 @@
-Creating the Resource Group
+# **Creating the Resource Group**
+
 Intent: Keep all resources needed in one group for easier management (or deletion after the lab)
 
 1.	Log in to azure portal
