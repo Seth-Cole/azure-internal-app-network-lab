@@ -33,12 +33,12 @@ Route all traffic through f Basic Firewall which will serve as an extra layer of
 1. Navigate to Route Tables blade > select route tables on the side bar > select create on the ribbon
 2. Follow setup wizard, selecting no on propagation
 3. Review + Create > Create
-
+   
    ![image](/images/06-firewall-and-udr/06-rt-creation.png)
-
+   
 4. Select newly created RT from the list on the Route tables blade
 5. On the overview page of the RT go to settings > subnets > associating it to the workload subnet, click ok.
-
+   
    ![image](/images/06-firewall-and-udr/06-rt-subnet-association.png)
    
 6. Select the RT from the list on the RT blade
@@ -47,13 +47,13 @@ Route all traffic through f Basic Firewall which will serve as an extra layer of
    - Namie the route
    - Destination type will be address and the IP addresses will be any or 0.0.0.0/0
    - Next hop type will be virtual appliance and the address will be the private IP of the firewall
-
+   
    ![image](/images/06-firewall-and-udr/06-UDR-creation.png)
-
+   
 9. Testing UDR by sending tracepath from application VM using the -n flag to confirm we see firewall IP
-
+   
    ![image](/images/06-firewall-and-udr/06-UDR-tracepath.png)
-
+   
 10. Confirms that traffic is being routed through AzureFirewallSubnet
    
    ![image](/images/06-firewall-and-udr/06-firewall-management-subnet-validation.png)
@@ -86,9 +86,9 @@ Route all traffic through f Basic Firewall which will serve as an extra layer of
      - Destination is URL to website
      - click save
      - repeat until all rules are entered
-
+   
    ![image](/images/06-firewall-and-udr/06-firewall-app-rule-allow.png)
-
+   
 6. Deny Rule
    - Name the rule
    - Collection type is application
@@ -102,13 +102,14 @@ Route all traffic through f Basic Firewall which will serve as an extra layer of
      - Destination is * (or any/all)
      - click save
    
-  ![image](/images/06-firewall-and-udr/06-firewall-app-rule-deny.png)
-
+   ![image](/images/06-firewall-and-udr/06-firewall-app-rule-deny.png)
+   
 7. Testing the allow rules using curl in the application VM
-
+   
    ![image](/images/07-validation-and-tests/07-validation-firewall-rule-allow.png)
    ![image](/images/07-validation-and-tests/07-validation-firewall-rule-allow(1).png)
-
+   
 8. Testing the deny rule using curl in the application VM
-
+   
    ![image](/images/07-validation-and-tests/07-validation-firewall-rule-deny(1).png)
+   
