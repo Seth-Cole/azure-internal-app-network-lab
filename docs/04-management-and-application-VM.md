@@ -38,3 +38,17 @@ Using the VM on admin subnet as a jumpbox to workload subnet to perform administ
 Creating a VM that would represent a server that hosts companies internal application
 
 ### **SOP**
+
+1. Navigate to Virtual Machines Blade
+2. Follow setup wizard in Basics tab on ribbon then navigate to Networking tab.
+3. Ensure that this VM doesn’t have a Public IP, select none in the Public IP section
+4. Also make sure that it’s assigned to the workload subnet
+  - If unsure follow previous SOP step 5
+
+    ![image](/images/04-management-and-application-VM/04-app-vm-subnet-assignment.png)
+
+5. Create VM and navigate back to VM blade to confirm both VM's are created
+
+   ![image](/images/04-management-and-application-VM/04-VM-creation-validation.png)
+
+
