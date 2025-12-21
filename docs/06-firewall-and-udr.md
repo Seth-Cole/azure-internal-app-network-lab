@@ -18,4 +18,4 @@ Deploying the Basic Firewall for an layered security, bolstering the security po
 8. Assign the previously created public IP to the "Management public IP address" section
 
    ![image](/images/06-firewall-and-udr/06-fw-creation.png)
-   ![image](images/06-firewall-and-udr/06-fw-creation(1).png)
+   ![image](/images/06-firewall-and-udr/06-fw-creation(1).png)
