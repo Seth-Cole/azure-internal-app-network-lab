@@ -1,115 +1,135 @@
-# **Deploying Basic Firewall and Setting up a User Defined Route(UDR)**
+# Deploying Basic Firewall and Setting up a User Defined Route(UDR)
 
-## **Deploying and Configuring Basic Firewall**
+## Deploying and Configuring Basic Firewall
 
-## **Intent**
+## Intent
 
-Deploying the Basic Firewall for an layered security, bolstering the security posture of the VNET. Allowing traffic management to and from the application workload subnet.
+Deploy Azure Firewall Basic to add a centralized security layer to the VNet and enable controlled outbound traffic management for the application workload subnet.
 
-### **SOP**
+## SOP
 
-1. Prior to creating the Basic Firewall you'll need to create a public IP to assign as the "Management Public IP address", once created continue to next steps
-2. You will also need to create an additional subnet in your VNET, follow subnet creation steps in 02-virtual-network SOP. When selecting subnet purpose choose "Firewall Management" and it will auto populate
-3. Navigate to Firewalls blade
-4. Click create on the ribbon and follow the setup wizard
-5. Select Basic Firewall in "Firewall SKU"
-6. Create a policy name
-7. Select "Use existing" when configuring the "Choose a virtual network" section
-8. Assign the previously created public IP to the "Management public IP address" section
+1. Prior to creating the Basic Firewall, create a Public IP resource to assign as the **Management public IP address**. Once created, continue to the next steps.
 
-   ![image](/images/06-firewall-and-udr/06-fw-creation.png)
-   ![image](/images/06-firewall-and-udr/06-fw-creation(1).png)
-   
-9. Revew + Create > Create to deploy the firewall
+2. You will also need to create an additional subnet in your VNet. Follow the subnet creation steps in the **02-virtual-network SOP**.
+   - When selecting the subnet purpose, choose **Firewall Management** and Azure will auto-populate the required settings.
 
+3. Navigate to the **Firewalls** blade.
 
-## **Creating the Routing Table and Defining UDR**
+4. Click **Create** on the ribbon and follow the setup wizard.
 
-## **Intent**
-Route all traffic through f Basic Firewall which will serve as an extra layer of security with NSG's in place. Allowing the application server to access defined websites and exclude all other external access.
+5. Select **Basic** for **Firewall SKU**.
 
-### **SOP**
+6. Create a **Firewall policy** name.
 
-1. Navigate to Route Tables blade > select route tables on the side bar > select create on the ribbon
-2. Follow setup wizard, selecting no on propagation
-3. Review + Create > Create
-   
-   ![image](/images/06-firewall-and-udr/06-rt-creation.png)
-   
-4. Select newly created RT from the list on the Route tables blade
-5. On the overview page of the RT go to settings > subnets > associating it to the workload subnet, click ok.
-   
-   ![image](/images/06-firewall-and-udr/06-rt-subnet-association.png)
-   
-6. Select the RT from the list on the RT blade
-7. Under settings go to Routes
-8. Follow setup wizard
-   - Namie the route
-   - Destination type will be address and the IP addresses will be any or 0.0.0.0/0
-   - Next hop type will be virtual appliance and the address will be the private IP of the firewall
-   
-   ![image](/images/06-firewall-and-udr/06-UDR-creation.png)
-   
-9. Testing UDR by sending tracepath from application VM using the -n flag to confirm we see firewall IP
-   
-   ![image](/images/06-firewall-and-udr/06-UDR-tracepath.png)
-   
-10. Confirms that traffic is being routed through AzureFirewallSubnet
-   
-   ![image](/images/06-firewall-and-udr/06-firewall-management-subnet-validation.png)
-   
+7. Select **Use existing** when configuring the **Choose a virtual network** section.
 
-## **Creating Firewall Policies and testing functionality**
+8. Assign the previously created Public IP to the **Management public IP address** field.
 
-## **Intent**
+   ![Azure Firewall creation wizard (Basics tab)](/images/06-firewall-and-udr/06-fw-creation.png)
+   ![Azure Firewall creation wizard (VNet + public IP configuration)](/images/06-firewall-and-udr/06-fw-creation(1).png)
 
-1. Once network is created, segmented, and firewall deployed we implement firewall policies to secure the application server.
-2. Allowing two connections, GitHub for version control and archive/security Ubuntu for patching and updates.
+9. Select **Review + create** > **Create** to deploy the firewall.
 
-### **SOP**
+---
 
-1. Navigate to Firewall Policies blade, Select the policy created during firewall creation
-2.	Select rule collections > add > rule collection
-3.	Creating 3 rules
-   - Explicit allow for GitHub and Ubunutu websites
-   - Explicit deny for everything else
-5.	Allow rules (all 3)
-   - Name the rule
-   - Collection type is application
-   - prio is 100 (want these rules to have more prio than the explicit deny)
-   - Action is allow
-   - In the Table at bottom of the page
-     - Add friendly name
+## Creating the Routing Table and Defining UDR
+
+## Intent
+
+Force all outbound traffic from the workload subnet through Azure Firewall Basic. This adds an additional layer of security alongside NSGs by allowing only defined outbound destinations and denying everything else.
+
+## SOP
+
+1. Navigate to the **Route tables** blade > select **Create** on the ribbon.
+
+2. Follow the setup wizard, selecting **No** for route propagation.
+
+3. Select **Review + create** > **Create**.
+
+   ![Create route table az-rt-lab](/images/06-firewall-and-udr/06-rt-creation.png)
+
+4. Select the newly created route table from the list.
+
+5. On the route table page, go to **Settings** > **Subnets** and associate the route table to the workload subnet. Select **OK**.
+
+   ![Associate route table to workload subnet az-wlsn-lab](/images/06-firewall-and-udr/06-rt-subnet-association.png)
+
+6. In the route table, go to **Settings** > **Routes**.
+
+7. Select **Add** and configure the default route:
+   - **Name:** *(name the route)*
+   - **Destination type:** **IP Addresses**
+   - **Destination IP addresses/CIDR ranges:** `0.0.0.0/0`
+   - **Next hop type:** **Virtual appliance**
+   - **Next hop address:** *(the private IP of the firewall)*
+
+   ![Create UDR route (0.0.0.0/0) pointing to firewall private IP](/images/06-firewall-and-udr/06-UDR-creation.png)
+
+8. Test the UDR by running `tracepath` from the application VM using the `-n` flag to confirm the firewall IP appears in the path.
+
+   ![Validate routing through firewall using tracepath from the app VM](/images/06-firewall-and-udr/06-UDR-tracepath.png)
+
+9. Confirm the workload subnet is associated to the route table (and traffic is being forced through the firewall).
+
+   ![Workload subnet shows route table association in VNet subnet view](/images/06-firewall-and-udr/06-firewall-management-subnet-validation.png)
+
+---
+
+## Creating Firewall Policies and testing functionality
+
+## Intent
+
+1. Once the network is created, segmented, and the firewall is deployed, implement firewall policies to secure the application server.
+2. Allow only specific outbound destinations:
+   - GitHub (version control)
+   - Ubuntu archive/security repositories (patching and updates)
+
+## SOP
+
+1. Navigate to the **Firewall Policies** blade and select the policy created during firewall deployment.
+
+2. Select **Rule collections** > **Add** > **Rule collection**.
+
+3. Create firewall rules to enforce outbound control:
+   - Explicit **Allow** for GitHub and Ubuntu destinations
+   - Explicit **Deny** for all other outbound web traffic
+
+4. Allow rules (GitHub + Ubuntu)
+   - Name the rule collection
+   - **Collection type:** Application
+   - **Priority:** `100` *(must be processed before the deny rule)*
+   - **Action:** Allow
+   - In the table at the bottom of the page:
+     - Add a friendly name
      - Source is the application workload subnet
-     - Protocols HTTP, and HTTPS
-     - Destination type is FQDN
-     - Destination is URL to website
-     - click save
-     - repeat until all rules are entered
-   
-   ![image](/images/06-firewall-and-udr/06-firewall-app-rule-allow.png)
-   
-6. Deny Rule
-   - Name the rule
-   - Collection type is application
-   - prio is 101 (want this rule parsed after the allow rules)
-   - Action is deny
-   - In the Table at bottom of the page
-     - Add friendly name
+     - Protocols: HTTP and HTTPS
+     - Destination type: FQDN
+     - Destination: the allowed FQDN
+     - Click **Save**
+     - Repeat until all allow FQDNs are entered
+
+   ![Firewall application rule collection: allow GitHub + Ubuntu FQDNs](/images/06-firewall-and-udr/06-firewall-app-rule-allow.png)
+
+5. Deny rule (deny all remaining web traffic)
+   - Name the rule collection
+   - **Collection type:** Application
+   - **Priority:** `101` *(must be processed after the allow rule collection)*
+   - **Action:** Deny
+   - In the table at the bottom of the page:
+     - Add a friendly name
      - Source is the application workload subnet
-     - Protocols HTTP, and HTTPS
-     - Destination type is FQDN
-     - Destination is * (or any/all)
-     - click save
-   
-   ![image](/images/06-firewall-and-udr/06-firewall-app-rule-deny.png)
-   
-7. Testing the allow rules using curl in the application VM
-   
-   ![image](/images/07-validation-and-tests/07-validation-firewall-rule-allow.png)
-   ![image](/images/07-validation-and-tests/07-validation-firewall-rule-allow(1).png)
-   
-8. Testing the deny rule using curl in the application VM
-   
-   ![image](/images/07-validation-and-tests/07-validation-firewall-rule-deny(1).png)
-   
+     - Protocols: HTTP and HTTPS
+     - Destination type: FQDN
+     - Destination: `*` *(any/all)*
+     - Click **Save**
+
+   ![Firewall application rule collection: deny all remaining outbound web traffic](/images/06-firewall-and-udr/06-firewall-app-rule-deny.png)
+
+6. Test the allow rules using `curl` from the application VM.
+
+   ![Validation: curl to allowed FQDNs succeeds](/images/07-validation-and-tests/07-validation-firewall-rule-allow.png)
+   ![Validation: additional successful allow-rule output](/images/07-validation-and-tests/07-validation-firewall-rule-allow(1).png)
+
+7. Test the deny rule using `curl` from the application VM.
+
+   ![Validation: curl to non-allowed FQDNs fails (deny rule enforced)](/images/07-validation-and-tests/07-validation-firewall-rule-deny(1).png)
