@@ -1,70 +1,111 @@
-# **Netowrk Security Groups**
+# Network Security Groups
 
-## **Creating the NSGs**
-## **Intent**
+## Creating the NSGs
 
-Using a layered security approach, create NSGs for management and application subnets.
+### Intent
 
-### **SOP**
+Using a layered security approach, create NSGs for the management and application subnets.
 
-1.	Navigate to the “Network Security Groups” blade, click “create”
-2.	Select pre-created resource group
-3.	Name your NSG and select the region
-4.	Select “review + create”
-5.	Wait for validation and then click “create”
-  ![image](/images/03-network-security-groups/03-create-NSG.png)
+### SOP
 
-6. Navigate back to NSG blade and see that resource is created (repeat steps 1 - 5 for additional NSGs)
-  ![image](/images/03-network-security-groups/03-workload-NSG-validation.png)
+1. In the **Azure portal**, navigate to **Network security groups** and select **Create**.
+2. Choose the existing resource group `az-rg-lab`.
+3. Enter a name for the NSG (for example, `az-nsg-mgmt-lab` or `az-nsg-app-lab`).
+4. Select the same region as the VNet (e.g. `(US) West US 2`).
+5. Click **Review + create**, then **Create**.
 
+   ![Create NSG in the Azure portal](../images/03-network-security-groups/03-create-NSG.png)
 
-## **Configuring az-adsn-lab subnet NSG**
-## **Intent**
+6. After deployment, return to the **Network security groups** blade and confirm that the NSGs are listed.  
+   Repeat steps 1–5 until both NSGs exist (one for the admin subnet and one for the workload subnet).
 
-Configure the NSG to use management subnet as a jumpbox to the application subnet by allowing SSH through admin public IP.
+   ![NSGs created and visible in the portal](../images/03-network-security-groups/03-workload-NSG-validation.png)
 
-### **SOP**
+---
 
-1. Navigate to NSG blade
-2. Select az-nsg-mgmt-lab NSG
-3. In left-hand window select Settings > inbound security rules > in ribbon click add
-4. Source will be the IP from which you will remote into admin VM, port will be any (can be specified but leaving any for lab)
-5. Our destination will be the management subnet (az-adsn-lab) but can be a specific address or range
-6. service is SSH and action is allow
-7. Leaving default prio (lower number = higher prio)
-8. Naming the rule and creating description for clarity
+## Configuring `az-adsn-lab` subnet NSG (management subnet)
 
-   ![image](/images/03-network-security-groups/03-management-NSG-allow-ssh.png)
-   ![image](/images/03-network-security-groups/03-management-NSG-allow-ssh-2.png)
-   
-9. Selecting "add" will create the rule
-10. Once created you can see it in the rule list on the "inbound security rules" blade
+### Intent
 
-    ![image](/images/03-network-security-groups/03-management-NSG-allow-ssh-confirmation.png)
+Allow SSH to the admin/jumpbox subnet (`az-adsn-lab`) **only** from a trusted public IP (your admin workstation).
 
-11. Associate the NSG to the proper subnet by clicking “subnets” on the blade
-12.	Click “+Associate” on the riboon
-13.	Select the subnet 
-14.	Click ok
+### SOP
 
-    ![image](/images/03-network-security-groups/03-management-NSG-subnet-association.png)
+1. In the **Network security groups** blade, select **`az-nsg-mgmt-lab`**.
+2. Under **Settings**, select **Inbound security rules**, then click **Add**.
 
-## **Configuring az-wlsn-lab subnet NSG**
-## **Intent**
+3. Configure the rule:
 
-Allowing inbound traffic only from the management subnet. Outbound will be restricted to approved sites and will be implemented through routing traffic from app subnet to firewall.
+   - **Source:** `My IP address` (or your specific admin public IP)
+   - **Source port ranges:** `*`
+   - **Destination:** `IP Addresses`
+   - **Destination IP addresses/CIDR ranges:** `10.0.2.0/24` (management subnet)
+   - **Service:** `SSH`
+   - **Destination port ranges:** `22`
+   - **Protocol:** `TCP`
+   - **Action:** `Allow`
+   - **Priority:** `100`  *(lower number = higher priority)*
+   - **Name:** `AllowManagementSSH`
+   - **Description:** `Allow SSH to management subnet from single source`
 
-### **SOP**
+   ![Allow SSH to management subnet from admin IP](../images/03-network-security-groups/03-management-NSG-allow-ssh.png)
 
-1. Navigate to NSG blade and select az-nsg-app-lab (workload subnet NSG)
-2. Select “Inbound Security Rules” > “add”
-3. Source will be admin subnet IP range/any port. Destination will be app workload subnet IP range/any port
+4. Click **Add** to save the rule.
 
-   ![image](/images/03-network-security-groups/03-workload-NSG-allow-managementSubnet.png)
-   ![image](/images/03-network-security-groups/03-workload-NSG-allow-managementSubnet-2.png)
+5. Verify the rule appears at priority `100` above the default rules in the **Inbound security rules** list.
 
-4. Follow steps 9 - 14 on previous SOP for saving the rule, confirming creation, and associating to the az-wlsn-lab subnet
+   ![Management NSG inbound rule list](../images/03-network-security-groups/03-management-NSG-allow-ssh-confirmation.png)
 
-   ![image](/images/03-network-security-groups/03-workload-NSG-allow-managementSubnet-confirmation.png)
-   ![image](/images/03-network-security-groups/03-workload-NSG-subnet-association.png)
+6. Associate the NSG with the management subnet:
 
+   1. In the same NSG, go to **Subnets**.
+   2. Click **Associate**.
+   3. Choose the virtual network `az-vnet-lab` and subnet `az-adsn-lab`.
+   4. Click **OK**.
+
+   ![Associate management NSG to az-adsn-lab subnet](../images/03-network-security-groups/03-management-NSG-subnet-association.png)
+
+---
+
+## Configuring `az-wlsn-lab` subnet NSG (workload subnet)
+
+### Intent
+
+Allow inbound traffic to the workload subnet **only** from the management subnet. All other inbound traffic should be blocked by default.
+
+### SOP
+
+1. In the **Network security groups** blade, select **`az-nsg-app-lab`** (workload NSG).
+2. Under **Settings**, select **Inbound security rules**, then click **Add**.
+
+3. Configure the rule:
+
+   - **Source:** `IP Addresses`
+   - **Source IP addresses/CIDR ranges:** `10.0.2.0/24` (admin subnet)
+   - **Source port ranges:** `*`
+   - **Destination:** `IP Addresses`
+   - **Destination IP addresses/CIDR ranges:** `10.0.3.0/24` (workload subnet)
+   - **Service:** `Any` (or `SSH` if you want to restrict to SSH only)
+   - **Destination port ranges:** `*` (or `22` for SSH only)
+   - **Protocol:** `Any`
+   - **Action:** `Allow`
+   - **Priority:** `100`
+   - **Name:** `AllowAdminSubnet`
+   - **Description:** `Allow inbound from admin subnet az-adsn-lab`
+
+   ![Allow traffic from admin subnet to workload subnet](../images/03-network-security-groups/03-workload-NSG-allow-managementSubnet.png)
+
+4. Click **Add** to save the rule.
+
+5. Verify the rule appears at priority `100` in the inbound rules.
+
+   ![Workload NSG inbound rule list](../images/03-network-security-groups/03-workload-NSG-allow-managementSubnet-confirmation.png)
+
+6. Associate the NSG with the workload subnet:
+
+   1. In the same NSG, go to **Subnets**.
+   2. Click **Associate**.
+   3. Choose virtual network `az-vnet-lab` and subnet `az-wlsn-lab`.
+   4. Click **OK**.
+
+   ![Associate workload NSG to az-wlsn-lab subnet](../images/03-network-security-groups/03-workload-NSG-subnet-association.png)
