@@ -18,10 +18,10 @@ Using a layered security approach, create NSGs for management and application su
   ![image](/images/03-network-security-groups/03-workload-NSG-validation.png)
 
 
-## **Configuring the NSG**
+## **Configuring az-adsn-lab subnet NSG**
 ## **Intent**
-1. Configure the management subnet to be used as a jumpbox to the application subnet by allowing SSH to the management box from admin public IP 
-2. Allow ssh from the management box to the application server.
+
+Configure the NSG to use management subnet as a jumpbox to the application subnet by allowing SSH through admin public IP.
 
 ### **SOP**
 
@@ -42,4 +42,20 @@ Using a layered security approach, create NSGs for management and application su
 
     ![image](/images/03-network-security-groups/03-management-NSG-allow-ssh-confirmation.png)
 
-11.
+11. Associate the NSG to the proper subnet by clicking “subnets” on the blade
+12.	Click “+Associate” on the riboon
+13.	Select the subnet 
+14.	Click ok
+
+    ![image](/images/03-network-security-groups/03-management-NSG-subnet-association.png)
+
+## **Configuring az-wlsn-lab subnet NSG**
+## **Intent**
+
+Allowing inbound only from the management subnet. Outbound will be restricted to approved sites and will be implemented through routing traffic from app subnet to firewall.
+
+### **SOP**
+
+
+
+
