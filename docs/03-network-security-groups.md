@@ -52,10 +52,19 @@ Configure the NSG to use management subnet as a jumpbox to the application subne
 ## **Configuring az-wlsn-lab subnet NSG**
 ## **Intent**
 
-Allowing inbound only from the management subnet. Outbound will be restricted to approved sites and will be implemented through routing traffic from app subnet to firewall.
+Allowing inbound traffic only from the management subnet. Outbound will be restricted to approved sites and will be implemented through routing traffic from app subnet to firewall.
 
 ### **SOP**
 
+1. Navigate to NSG blade and select az-nsg-app-lab (workload subnet NSG)
+2. Select “Inbound Security Rules” > “add”
+3. Source will be admin subnet IP range/any port. Destination will be app workload subnet IP range/any port
 
+   ![image](/images/03-network-security-groups/03-workload-NSG-allow-managementSubnet.png)
+   ![image](/images/03-network-security-groups/03-workload-NSG-allow-managementSubnet-2.png)
 
+4. Follow steps 9 - 14 on previous SOP for saving the rule, confirming creation, and associating to the az-wlsn-lab subnet
+
+   ![image](/images/03-network-security-groups/03-workload-NSG-allow-managementSubnet-confirmation.png)
+   ![image](/images/03-network-security-groups/03-workload-NSG-subnet-association.png)
 
