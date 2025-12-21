@@ -27,6 +27,7 @@ Create a virtual network (VNet) to host all subnets required to manage, secure, 
    - `AzureFirewallSubnet` – `10.0.1.0/26`
    - `az-adsn-lab` – `10.0.2.0/24` (admin subnet)
    - `az-wlsn-lab` – `10.0.3.0/24` (workload/app subnet)
+   - `AzureFirewallManagementSubnet` – `10.0.4.0/26` – **reserved for the firewall management NIC (used later in the Firewall SOP)**
 
    ![Configure VNet address space and subnets](../images/02-virtual-network/02-create-subnets.png)
 
