@@ -111,4 +111,4 @@ Route all traffic through f Basic Firewall which will serve as an extra layer of
 
 8. Testing the deny rule using curl in the application VM
 
-   ![image](images/07-validation-and-tests/07-validation-firewall-rule-deny(1).png)
+   ![image](/images/07-validation-and-tests/07-validation-firewall-rule-deny(1).png)
