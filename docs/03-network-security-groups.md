@@ -1,6 +1,6 @@
 # **Netowrk Security Groups**
 
-## **Creating the NSG**
+## **Creating the NSGs**
 ## **Intent**
 
 Using a layered security approach, create NSGs for management and application subnets.
