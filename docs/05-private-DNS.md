@@ -22,4 +22,24 @@ Configuring PDNS which allow us to automatically register new nodes, have cross 
 
    ![image](/images/05-private-DNS/05-PDNS-validation.png)
 
-7.
+7. Creating the RecordSet for az-appvm-lab
+   - select the private DNS zone from the list.
+   - Under DNS management, select record sets.
+   - On the ribbon select add
+   - name the record set, input private IP of application server
+   - click add
+   - confirm record is now listed
+
+     ![image](/images/05-private-DNS/05-pdns-A-record-application-vm.png)
+
+8. Testing the name resolution from az-adminvm-lab
+   - make sure that both VM’s are started
+   - Open PuTTY session on local node
+   - login to admin vm
+   - nslookup the FQDN with the suffix of the PDNS zone that we created
+
+     ![image](/images/05-private-DNS/05-PDNS-resolve-validation.png)
+
+   - we'll also resolve with FQDN using SSH
+
+     ![image](/images/05-private-DNS/05-PDNS-ssh-using-FQDN.png)
