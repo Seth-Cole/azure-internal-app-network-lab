@@ -28,7 +28,7 @@ Using the VM on admin subnet as a jumpbox to workload subnet to perform administ
     - select the key created by PuTTYGen
 10.	Navigate back to “Session” in PuTTY and input VM public IP, this will open SSH window and you can login with credentials
 
-    ![image](
+    ![image](/images/04-management-and-application-VM/04-admin-vm-ssh-validation.png)
 
 
 ## **Creating Pseudo Application Server in workload subnet (az-wlsn-lab)**
