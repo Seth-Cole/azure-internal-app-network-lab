@@ -1,45 +1,53 @@
-# **Setup Private DNS(PDNS) for VNET**
+# Setup Private DNS (PDNS) for VNet
 
-## **Intent**
+## Intent
 
-Configuring PDNS which allow us to automatically register new nodes, have cross v-net name resolution (if we decide to expand), and allow for security and privacy as its only accessible to the internal network.
+Configure a Private DNS zone so internal hosts can resolve the application VM by name (no public DNS required), keeping name resolution private to the virtual network.
 
-### **SOP**
+## SOP
 
-1. Navigate to Private DNS zones blade, click create in the ribbon
-2. Follow setup wizard (be sure to select the correct resource group)
-3. Create custom name for the zone
-4. Navigate to “Virtual Network Links” in the ribbon
-   - Name the link (ours will be az-pdnsLink-lab)
-   - Select the pre-built vnet
-   - Enable auto registration
-   - Click create
+1. In the **Azure portal**, search for **Private DNS zones** and select **Create**.
 
-   ![image](/images/05-private-DNS/05-pdns-link.png)
+2. On the **Basics** tab, select:
+   - **Resource group:** `az-rg-lab`
+   - **Name:** `az.pdns.lab`
 
-5. Review + Create > Create > wait for deployment to process.
-6. Navigate back to Private DNS zones blade and check for new zone to be listed
+3. Select **Review + create**, then select **Create** and wait for deployment to complete.
 
-   ![image](/images/05-private-DNS/05-PDNS-validation.png)
+4. Open the new Private DNS zone (`az.pdns.lab`), then select **Virtual network links** and choose **Add**.
+   - **Link name:** `az-pdnsLink-lab`
+   - **Virtual network:** `az-vnet-lab`
+   - Select **Create**.
 
-7. Creating the RecordSet for az-appvm-lab
-   - select the private DNS zone from the list.
-   - Under DNS management, select record sets.
-   - On the ribbon select add
-   - name the record set, input private IP of application server
-   - click add
-   - confirm record is now listed
+   ![Create a virtual network link for the Private DNS zone](/images/05-private-DNS/05-pdns-link.png)
 
-     ![image](/images/05-private-DNS/05-pdns-A-record-application-vm.png)
+5. Wait for the virtual network link to deploy, then confirm the link is listed under **Virtual network links**.
 
-8. Testing the name resolution from az-adminvm-lab
-   - make sure that both VM’s are started
-   - Open PuTTY session on local node
-   - login to admin vm
-   - nslookup the FQDN with the suffix of the PDNS zone that we created
+6. Navigate back to the **Private DNS zones** blade and confirm `az.pdns.lab` is listed.
 
-     ![image](/images/05-private-DNS/05-PDNS-resolve-validation.png)
+   ![Private DNS zone successfully created and listed](/images/05-private-DNS/05-PDNS-validation.png)
 
-   - we'll also resolve with FQDN using SSH
+7. Create an **A record** for the application VM:
+   - Open `az.pdns.lab` from the list.
+   - Under **DNS management**, select **Record sets**.
+   - Select **+ Record set** / **Add**.
+   - **Name:** `az-appvm-lab`
+   - **Type:** `A`
+   - **IP address:** `10.0.3.4`
+   - Select **Add**, then confirm the record is now listed.
 
-     ![image](/images/05-private-DNS/05-PDNS-ssh-using-FQDN.png)
+   ![Create an A record for the application VM](/images/05-private-DNS/05-pdns-A-record-application-vm.png)
+
+8. Test name resolution from `az-adminvm-lab`:
+   - Confirm both VMs are running.
+   - From your local machine, open a PuTTY session and sign in to `az-adminvm-lab`.
+   - Run:
+     - `nslookup az-appvm-lab.az.pdns.lab`
+   - Confirm the name resolves to `10.0.3.4`.
+
+   ![Validate Private DNS resolution using nslookup from the admin VM](/images/05-private-DNS/05-PDNS-resolve-validation.png)
+
+   - Verify connectivity using SSH via FQDN:
+     - `ssh testuser@az-appvm-lab.az.pdns.lab`
+
+   ![SSH to the application VM using the Private DNS FQDN](/images/05-private-DNS/05-PDNS-ssh-using-FQDN.png)
