@@ -102,10 +102,10 @@ Allow inbound traffic to the workload subnet **only** from the management subnet
    ![Workload NSG inbound rule list](../images/03-network-security-groups/03-workload-NSG-allow-managementSubnet-confirmation.png)
 
 6. Associate the NSG with the workload subnet:
-
-   1. In the same NSG, go to **Subnets**.
-   2. Click **Associate**.
-   3. Choose virtual network `az-vnet-lab` and subnet `az-wlsn-lab`.
-   4. Click **OK**.
+  
+   - In the same NSG, go to **Subnets**.
+   - Click **Associate**.
+   - Choose virtual network `az-vnet-lab` and subnet `az-wlsn-lab`.
+   - Click **OK**.
 
    ![Associate workload NSG to az-wlsn-lab subnet](../images/03-network-security-groups/03-workload-NSG-subnet-association.png)
