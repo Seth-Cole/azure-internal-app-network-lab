@@ -42,8 +42,8 @@ Use a VM on the admin subnet as a jump box to the workload subnet to perform adm
 
 8. In **PuTTY**:
 
-   1. Under **Connection → SSH → Auth → Credentials**, browse to the `.ppk` file you created.
-   2. Back under **Session**, set the host to the admin VM’s public IP, and (optionally) save the session profile.
+   - Under **Connection → SSH → Auth → Credentials**, browse to the `.ppk` file you created.
+   - Back under **Session**, set the host to the admin VM’s public IP, and (optionally) save the session profile.
 
 9. Open the session. When prompted, log in with the SSH username you configured (e.g. `testuser`).  
    You should see a shell prompt on `az-adminvm-lab`, showing its private IP on the management subnet (10.0.2.x).
