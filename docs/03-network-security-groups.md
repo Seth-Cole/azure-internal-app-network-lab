@@ -58,10 +58,10 @@ Allow SSH to the admin/jumpbox subnet (`az-adsn-lab`) **only** from a trusted pu
 
 6. Associate the NSG with the management subnet:
 
-   1. In the same NSG, go to **Subnets**.
-   2. Click **Associate**.
-   3. Choose the virtual network `az-vnet-lab` and subnet `az-adsn-lab`.
-   4. Click **OK**.
+    - In the same NSG, go to **Subnets**.
+    - Click **Associate**.
+    - Choose the virtual network `az-vnet-lab` and subnet `az-adsn-lab`.
+    - Click **OK**.
 
    ![Associate management NSG to az-adsn-lab subnet](../images/03-network-security-groups/03-management-NSG-subnet-association.png)
 
